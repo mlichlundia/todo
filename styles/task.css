@@ -1,0 +1,16 @@
+.task__container {
+	max-width: 20rem;
+	margin: 0.5rem 0;
+	padding: 1.5rem;
+	background: #fff;
+	border-radius: 0.5rem;
+}
+
+.task {
+	word-break: break-word;
+	margin: 0 0 0.75rem;
+}
+
+.task__container p {
+	color: rgb(79, 83, 95);
+}
