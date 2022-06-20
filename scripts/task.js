@@ -1,7 +1,7 @@
 import { formatDate } from "./date.js";
 import { tomorrow } from "./date.js";
 
-class Task {
+export class Task {
 	constructor(
 		task,
 		start = formatDate(new Date()),
