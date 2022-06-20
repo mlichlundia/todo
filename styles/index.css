@@ -1,0 +1,26 @@
+html {
+	font-family: "Inter", Arial, sans-serif;
+	font-size: 16px;
+}
+
+body {
+	background-color: rgb(235, 237, 243);
+}
+
+main {
+	margin: 4rem auto;
+	width: fit-content;
+}
+
+h1 {
+	text-align: center;
+	text-transform: uppercase;
+	color: rgb(31, 80, 227);
+}
+
+.todo__container {
+	margin: 2rem 0;
+	padding: 1.5rem;
+	background: #fff;
+	border-radius: 0.25rem;
+}
