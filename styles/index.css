@@ -19,6 +19,17 @@ h1 {
 	color: rgb(31, 80, 227);
 }
 
+button {
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	font-weight: 700;
+	border-radius: 0.5rem;
+	background: none;
+	text-transform: capitalize;
+	background: #fff;
+	color: inherit;
+}
+
 .todo__create-container {
 	margin: 2rem 0 0;
 	display: flex;
@@ -27,12 +38,10 @@ h1 {
 
 .todo__create-container button {
 	width: 2.5rem;
+	padding: 0;
 	height: 2.5rem;
 	margin: 0 0 0 0.5rem;
 	font-size: 1.5rem;
-	background: #fff;
-	border-radius: 0.5rem;
-	color: inherit;
 }
 
 .todo__create-container button:hover {
