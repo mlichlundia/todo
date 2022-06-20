@@ -1,0 +1,62 @@
+.modal {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.3s;
+}
+
+.modal.open {
+	pointer-events: all;
+	background: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(6px);
+	display: flex;
+	opacity: 1;
+}
+
+.modal__content {
+	position: relative;
+	width: 30rem;
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	background: white;
+	border-radius: 9px;
+	text-align: start;
+	text-transform: capitalize;
+}
+
+.modal__field {
+	margin: 1rem 0;
+}
+
+.modal__field label {
+	text-transform: capitalize;
+}
+
+form input {
+	width: 100%;
+	margin: 0.5rem 0 0;
+	display: block;
+	border: 0.125rem solid rgb(235, 237, 243);
+}
+
+.modal__title {
+	margin: 0 0 0.5rem;
+}
+
+.modal button {
+	padding: 0.5rem 0;
+}
+
+.modal__buttons > :last-child {
+	margin: 0 0 0 1.5rem;
+}
