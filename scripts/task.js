@@ -8,7 +8,9 @@ export class Task {
 	taskInfo;
 	task;
 	term;
+	controlContainer;
 	check;
+	deleteButton;
 
 	constructor(
 		task,
@@ -34,17 +36,25 @@ export class Task {
 	init() {
 		this.taskContainer = document.createElement("li");
 		this.taskInfo = document.createElement("div");
+		this.controlContainer = document.createElement("div");
 		this.task = document.createElement("h3");
 		this.term = document.createElement("p");
+		this.deleteButton = document.createElement("button");
 	}
 
 	createElement() {
 		this.task.innerText = this.taskText;
 		this.term.innerHTML = `${this.start} — ${this.deadline}`;
+		this.deleteButton.innerText = "✖";
+
 		this.taskInfo.append(this.task);
 		this.taskInfo.append(this.term);
+
+		new Check(this.controlContainer).initComponent();
+		this.controlContainer.append(this.deleteButton);
+
 		this.taskContainer.append(this.taskInfo);
-		new Check(this.taskContainer).initComponent();
+		this.taskContainer.append(this.controlContainer);
 
 		this.parent.append(this.taskContainer);
 	}
@@ -53,6 +63,7 @@ export class Task {
 		this.taskContainer.classList.add("task__container");
 		this.taskInfo.classList.add("task__info");
 		this.task.classList.add("task");
+		this.deleteButton.classList.add("task__button");
 	}
 
 	setAttributes() {
@@ -60,8 +71,9 @@ export class Task {
 	}
 
 	setHendlers() {
-		this.check = document.querySelector(`#${this.id} input`);
+		this.check = this.controlContainer.querySelector("input");
 		this.check.addEventListener("change", () => this.toggleDone());
+		this.deleteButton.addEventListener("click", () => this.delete());
 	}
 
 	toggleDone() {
@@ -76,5 +88,9 @@ export class Task {
 			this.task.style.textDecoration = "line-through";
 			this.task.style.color = "rgb(98 102 116)";
 		}
+	}
+
+	delete() {
+		this.taskContainer.remove();
 	}
 }

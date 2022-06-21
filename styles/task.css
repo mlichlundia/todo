@@ -21,3 +21,12 @@
 .task__container p {
 	color: rgb(79, 83, 95);
 }
+
+.task__button {
+	width: 2rem;
+	height: 2rem;
+	margin: 0.25rem 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
