@@ -1,81 +1,93 @@
 import { isValid } from "./isValid.js";
 import { createTask } from "./createTask.js";
 import { formatDate } from "./date.js";
-import { Input } from "./createInput.js";
+import { Input } from "./generateInput.js";
 
 class Modal {
+	modal;
+	modalContent;
+	modalTitle;
+	form;
+	taskField;
+	startField;
+	deadlineField;
+	buttonContainer;
+	save;
+	close;
+
 	constructor(parent, task, start, deadline) {
 		this.parent = parent;
-
 		this.taskField = task;
 		this.startField = start;
 		this.deadlineField = deadline;
 	}
 
-	createElement() {
-		const modal = document.createElement("div");
-		const modalContent = document.createElement("div");
-		const modalTitle = document.createElement("h2");
-		const form = document.createElement("form");
+	init() {
+		this.modal = document.createElement("div");
+		this.modalContent = document.createElement("div");
+		this.modalTitle = document.createElement("h2");
+		this.form = document.createElement("form");
 
-		const taskField = new Input(this.taskField).createElement();
-		const startField = new Input(this.startField).createElement();
-		const deadlineField = new Input(this.deadlineField).createElement();
+		this.taskField = new Input(this.taskField).createElement();
+		this.startField = new Input(this.startField).createElement();
+		this.deadlineField = new Input(this.deadlineField).createElement();
 
-		const task = taskField.querySelector("#task");
+		this.buttonContainer = document.createElement("div");
+		this.save = document.createElement("button");
+		this.close = document.createElement("button");
 
-		const buttonContainer = document.createElement("div");
-		const save = document.createElement("button");
-		const close = document.createElement("button");
+		this.createDOM();
+		this.setClasses();
+		this.setAttributes();
+		this.setHendlers();
+	}
 
-		modalTitle.innerText = "create task";
-		save.innerText = "save";
-		close.innerText = "close";
+	createDOM() {
+		this.modalTitle.innerText = "create task";
+		this.save.innerText = "save";
+		this.close.innerText = "close";
 
-		save.setAttribute("type", "submit");
+		this.modal.append(this.modalContent);
+		this.modalContent.append(this.modalTitle);
+		this.modalContent.append(this.form);
 
-		modal.append(modalContent);
+		this.form.append(this.taskField);
+		this.form.append(this.startField);
+		this.form.append(this.deadlineField);
+		this.form.append(this.buttonContainer);
 
-		modalContent.append(modalTitle);
-		modalContent.append(form);
+		this.buttonContainer.append(this.save);
+		this.buttonContainer.append(this.close);
+		this.parent.append(this.modal);
+	}
 
-		form.append(taskField);
-		form.append(startField);
-		form.append(deadlineField);
-		form.append(buttonContainer);
+	setClasses() {
+		this.modal.classList.add("modal");
+		this.modalContent.classList.add("modal__content");
+		this.buttonContainer.classList.add("modal__buttons");
+		this.close.classList.add("close");
+	}
 
-		buttonContainer.append(save);
-		buttonContainer.append(close);
+	setAttributes() {
+		this.save.setAttribute("type", "submit");
+	}
 
-		this.parent.append(modal);
+	setHendlers() {
+		const task = this.taskField.querySelector("#task");
 
-		this.addClasses();
-
-		modal.addEventListener("click", this.toggle);
-		modalContent.addEventListener("click", e => e.stopPropagation());
-		close.addEventListener("click", e => {
+		this.modal.addEventListener("click", () => this.toggle());
+		this.modalContent.addEventListener("click", e => e.stopPropagation());
+		this.close.addEventListener("click", e => {
 			e.preventDefault();
 			this.toggle();
 		});
+
 		task.addEventListener("keyup", () => isValid(task));
-		form.addEventListener("submit", e => this.onSubmit(e, task));
-	}
-
-	addClasses() {
-		const modal = document.querySelector("main>:last-child");
-		const modalContent = modal.querySelector(":first-child");
-		const buttonContainer = modalContent.querySelector("form>:last-child");
-		const close = buttonContainer.querySelector(":last-child");
-
-		modal.classList.add("modal");
-		modalContent.classList.add("modal__content");
-		buttonContainer.classList.add("modal__buttons");
-		close.classList.add("close");
+		this.form.addEventListener("submit", e => this.onSubmit(e, task));
 	}
 
 	onSubmit(e, task) {
 		e.preventDefault();
-		const form = document.querySelector(".modal form");
 		isValid(task);
 		createTask(
 			task.value,
@@ -83,11 +95,11 @@ class Modal {
 			formatDate(document.querySelector("#deadline").value)
 		);
 		this.toggle();
-		form.reset();
+		this.form.reset();
 	}
 
 	toggle() {
-		document.querySelector(".modal").classList.toggle("open");
+		this.modal.classList.toggle("open");
 	}
 }
 
@@ -112,5 +124,5 @@ const openModal = document.querySelector(".open-modal-button");
 
 const main = document.querySelector("main");
 const modal = new Modal(main, taskField, startField, deadlineField);
-modal.createElement();
+modal.init();
 openModal.addEventListener("click", () => modal.toggle());
