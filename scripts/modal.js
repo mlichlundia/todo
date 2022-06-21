@@ -22,6 +22,14 @@ class Modal {
 		this.deadlineField = deadline;
 	}
 
+	initComponent() {
+		this.init();
+		this.createDOM();
+		this.setClasses();
+		this.setAttributes();
+		this.setHendlers();
+	}
+
 	init() {
 		this.modal = document.createElement("div");
 		this.modalContent = document.createElement("div");
@@ -35,11 +43,6 @@ class Modal {
 		this.buttonContainer = document.createElement("div");
 		this.save = document.createElement("button");
 		this.close = document.createElement("button");
-
-		this.createDOM();
-		this.setClasses();
-		this.setAttributes();
-		this.setHendlers();
 	}
 
 	createDOM() {
@@ -124,5 +127,5 @@ const openModal = document.querySelector(".open-modal-button");
 
 const main = document.querySelector("main");
 const modal = new Modal(main, taskField, startField, deadlineField);
-modal.init();
+modal.initComponent();
 openModal.addEventListener("click", () => modal.toggle());
