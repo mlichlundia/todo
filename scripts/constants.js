@@ -1,3 +1,3 @@
-export const constants = {
-	enter: 13,
+export const CONSTANTS = {
+	ENTER: 13,
 };

@@ -1,4 +1,4 @@
-import { constants } from "./constants.js";
+import { CONSTANTS } from "./constants.js";
 import { createTask } from "./createTask.js";
 import { isValid } from "./isValid.js";
 
@@ -10,7 +10,7 @@ input.addEventListener("keyup", e => {
 });
 
 function checkInput(e) {
-	if (e.keyCode === constants.enter && input.checkValidity()) {
+	if (e.keyCode === CONSTANTS.ENTER && input.checkValidity()) {
 		input.blur();
 		createTask(input.value);
 		input.value = "";
