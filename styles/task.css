@@ -1,9 +1,16 @@
 .task__container {
-	max-width: 20rem;
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	width: 25rem;
 	margin: 0.5rem 0;
 	padding: 1.5rem;
 	background: #fff;
 	border-radius: 0.5rem;
+}
+
+.task__info {
+	margin: 0 1rem 0 0;
 }
 
 .task {
