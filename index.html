@@ -29,37 +29,6 @@
 
     </div>
 
-    <div class="modal ">
-      <div class="modal__content">
-        <h2 class="modal__title">create task</h2>
-        <form>
-
-          <div class="modal__field">
-            <label for="task">task:</label>
-            <input id="task" type="text" placeholder="Your task"
-              pattern="([0-9A-Za-z\s]+)+" required>
-          </div>
-          <div class="modal__field">
-            <label for="task">start:</label>
-            <input id="start" type="date"
-              pattern="(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$"
-              required>
-          </div>
-          <div class="modal__field">
-            <label for="deadline">deadline:</label>
-            <input id="deadline" type="date"
-              pattern="(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$"
-              required>
-          </div>
-
-          <div class="modal__buttons">
-            <button type="submit">save</button>
-            <button class="close">close</button>
-          </div>
-
-        </form>
-      </div>
-    </div>
   </main>
 
   <script type="module" src="./scripts/task.js"></script>
