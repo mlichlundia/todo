@@ -66,6 +66,7 @@ export class Task {
 
 	toggleDone() {
 		const state = this.taskContainer.getAttribute("data-status");
+
 		if (state === "done") {
 			this.taskContainer.removeAttribute("data-status", "done");
 			this.task.style.textDecoration = "";
