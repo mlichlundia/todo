@@ -4,7 +4,8 @@ html {
 }
 
 body {
-	background-color: rgb(235, 237, 243);
+	background: rgb(235, 237, 243);
+	color: rgb(51, 53, 59);
 }
 
 main {
@@ -18,9 +19,43 @@ h1 {
 	color: rgb(31, 80, 227);
 }
 
-.todo__container {
-	margin: 2rem 0;
-	padding: 1.5rem;
+button {
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	font-weight: 700;
+	border-radius: 0.5rem;
+	background: none;
+	text-transform: capitalize;
 	background: #fff;
-	border-radius: 0.25rem;
+	color: inherit;
+}
+
+.todo__create-container {
+	margin: 2rem 0 0;
+	display: flex;
+	align-items: center;
+}
+
+.todo__create-container button {
+	width: 2.5rem;
+	padding: 0;
+	height: 2.5rem;
+	margin: 0 0 0 0.5rem;
+	font-size: 1.5rem;
+}
+
+.todo__create-container button:hover {
+	background: rgb(221, 224, 236);
+}
+
+input {
+	width: calc(100% - 3rem);
+	padding: 0.5rem 0.75rem;
+	border-radius: 0.5rem;
+	outline: none;
+	border: 0.125rem solid #fff;
+}
+
+.invalid {
+	border: 0.125rem solid rgb(219 102 102);
 }

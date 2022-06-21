@@ -8,6 +8,8 @@
     rel="stylesheet">
   <link rel="stylesheet" href="./styles/reset.css">
   <link rel="stylesheet" href="./styles/index.css">
+  <link rel="stylesheet" href="./styles/task.css">
+  <link rel="stylesheet" href="./styles/modal.css">
 </head>
 
 <body>
@@ -15,9 +17,28 @@
   <main>
     <h1>todo list</h1>
     <div class="todo__container">
+
+      <div class="todo__create-container">
+        <label for="task-name"></label>
+        <input id="task-name" type="text" placeholder="Your task"
+          pattern="([0-9A-Za-z\s]+)+" required>
+        <button class="open-modal-button">+</button>
+      </div>
+
       <ul class="todo__list"></ul>
+
     </div>
+
   </main>
+
+  <script type="module" src="./scripts/task.js"></script>
+  <script type="module" src="./scripts/date.js"></script>
+  <script type="module" src="./scripts/createTask.js"></script>
+  <script type="module" src="./scripts/inputCreate.js"></script>
+  <script type="module" src="./scripts/isValid.js"></script>
+  <script type="module" src="./scripts/modal.js"></script>
+  <script type="module" src="./scripts/generateInput.js"></script>
+  <script type="module" src="./scripts/constants.js"></script>
 
 </body>
 

@@ -33,6 +33,7 @@ button,
 select,
 a {
 	cursor: pointer;
+	transition: 0.25s;
 }
 
 a {
