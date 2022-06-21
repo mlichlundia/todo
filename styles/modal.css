@@ -49,7 +49,7 @@ form input {
 	border: 0.125rem solid rgb(235, 237, 243);
 }
 
-.modal__title {
+.modal h2 {
 	margin: 0 0 0.5rem;
 }
 

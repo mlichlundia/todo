@@ -1,69 +1,36 @@
 import { isValid } from "./isValid.js";
 import { createTask } from "./createTask.js";
 import { formatDate } from "./date.js";
+import { Input } from "./createInput.js";
 
 class Modal {
-	constructor() {}
+	constructor(parent, task, start, deadline) {
+		this.parent = parent;
+
+		this.taskField = task;
+		this.startField = start;
+		this.deadlineField = deadline;
+	}
+
 	createElement() {
 		const modal = document.createElement("div");
 		const modalContent = document.createElement("div");
 		const modalTitle = document.createElement("h2");
 		const form = document.createElement("form");
 
-		const taskContainer = document.createElement("div");
-		const taskLabel = document.createElement("label");
-		const taskInput = document.createElement("input");
+		const taskField = new Input(this.taskField).createElement();
+		const startField = new Input(this.startField).createElement();
+		const deadlineField = new Input(this.deadlineField).createElement();
 
-		const startContainer = document.createElement("div");
-		const startLabel = document.createElement("label");
-		const startInput = document.createElement("input");
-
-		const deadlineContainer = document.createElement("div");
-		const deadlineLabel = document.createElement("label");
-		const deadlineInput = document.createElement("input");
+		const task = taskField.querySelector("#task");
 
 		const buttonContainer = document.createElement("div");
 		const save = document.createElement("button");
 		const close = document.createElement("button");
 
-		modal.classList.add("modal");
-		modalContent.classList.add("modal__content");
-		modalTitle.classList.add("modal__title");
-		taskContainer.classList.add("modal__field");
-		startContainer.classList.add("modal__field");
-		deadlineContainer.classList.add("modal__field");
-		buttonContainer.classList.add("modal__buttons");
-		close.classList.add("close");
-
 		modalTitle.innerText = "create task";
 		save.innerText = "save";
 		close.innerText = "close";
-
-		taskLabel.setAttribute("for", "task");
-		startLabel.setAttribute("for", "start");
-		deadlineLabel.setAttribute("for", "deadline");
-
-		taskInput.setAttribute("id", "task");
-		taskInput.setAttribute("type", "text");
-		taskInput.setAttribute("placeholder", "Your task");
-		taskInput.setAttribute("pattern", `([0-9A-Za-z\\s]+)+`);
-		taskInput.setAttribute("required", "true");
-
-		startInput.setAttribute("id", "start");
-		startInput.setAttribute("type", "date");
-		startInput.setAttribute(
-			"pattern",
-			"(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]d{4}$"
-		);
-		startInput.setAttribute("required", "true");
-
-		deadlineInput.setAttribute("id", "deadline");
-		deadlineInput.setAttribute("type", "date");
-		deadlineInput.setAttribute(
-			"pattern",
-			"(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]d{4}$"
-		);
-		deadlineInput.setAttribute("required", "true");
 
 		save.setAttribute("type", "submit");
 
@@ -72,45 +39,51 @@ class Modal {
 		modalContent.append(modalTitle);
 		modalContent.append(form);
 
-		form.append(taskContainer);
-		form.append(startContainer);
-		form.append(deadlineContainer);
+		form.append(taskField);
+		form.append(startField);
+		form.append(deadlineField);
 		form.append(buttonContainer);
-
-		taskContainer.append(taskLabel);
-		taskContainer.append(taskInput);
-
-		startContainer.append(startLabel);
-		startContainer.append(startInput);
-
-		deadlineContainer.append(deadlineLabel);
-		deadlineContainer.append(deadlineInput);
 
 		buttonContainer.append(save);
 		buttonContainer.append(close);
 
-		modalContent.addEventListener("click", e => e.stopPropagation());
+		this.parent.append(modal);
 
+		this.addClasses();
+
+		modal.addEventListener("click", this.toggle);
+		modalContent.addEventListener("click", e => e.stopPropagation());
 		close.addEventListener("click", e => {
 			e.preventDefault();
 			this.toggle();
 		});
+		task.addEventListener("keyup", () => isValid(task));
+		form.addEventListener("submit", e => this.onSubmit(e, task));
+	}
 
-		taskInput.addEventListener("keyup", () => isValid(task));
+	addClasses() {
+		const modal = document.querySelector("main>:last-child");
+		const modalContent = modal.querySelector(":first-child");
+		const buttonContainer = modalContent.querySelector("form>:last-child");
+		const close = buttonContainer.querySelector(":last-child");
 
-		form.addEventListener("submit", e => {
-			e.preventDefault();
-			isValid(task);
-			createTask(
-				taskInput.value,
-				formatDate(startInput.value),
-				formatDate(deadlineInput.value)
-			);
-			this.toggle();
-			form.reset();
-		});
+		modal.classList.add("modal");
+		modalContent.classList.add("modal__content");
+		buttonContainer.classList.add("modal__buttons");
+		close.classList.add("close");
+	}
 
-		return modal;
+	onSubmit(e, task) {
+		e.preventDefault();
+		const form = document.querySelector(".modal form");
+		isValid(task);
+		createTask(
+			task.value,
+			formatDate(document.querySelector("#start").value),
+			formatDate(document.querySelector("#deadline").value)
+		);
+		this.toggle();
+		form.reset();
 	}
 
 	toggle() {
@@ -118,13 +91,26 @@ class Modal {
 	}
 }
 
+const taskField = {
+	name: "task",
+	type: "text",
+	pattern: `([0-9A-Za-z\\s]+)+`,
+	placeholder: "Your task",
+};
+const startField = {
+	name: "start",
+	type: "date",
+	pattern: "(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]d{4}$",
+};
+const deadlineField = {
+	name: "deadline",
+	type: "date",
+	pattern: "(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]d{4}$",
+};
+
 const openModal = document.querySelector(".open-modal-button");
 
-const modal = new Modal();
-const modalRef = modal.createElement();
 const main = document.querySelector("main");
-
-main.append(modalRef);
-
-modalRef.addEventListener("click", () => modal.toggle());
+const modal = new Modal(main, taskField, startField, deadlineField);
+modal.createElement();
 openModal.addEventListener("click", () => modal.toggle());
