@@ -1,0 +1,35 @@
+.todo__input-container {
+	position: relative;
+	width: fit-content;
+	height: fit-content;
+}
+
+.todo__check-container {
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	background: rgb(235, 237, 243);
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+.todo__check_active {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1rem;
+	font-weight: 900;
+	opacity: 0;
+	color: var(--dark-900);
+	pointer-events: none;
+	transition: 0.25s;
+}
+
+input[type="checkbox"]:checked ~ .todo__check > .todo__check_active {
+	opacity: 1;
+}
