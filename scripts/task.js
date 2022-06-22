@@ -26,6 +26,26 @@ export class Task {
 		this.deadline = deadline;
 		this.parent = parent;
 		this.id = generateId();
+
+		this.taskData = {
+			name: 'task',
+			type: 'text',
+			pattern: CONSTANTS.PATTERN_NAME,
+			placeholder: 'Edit task',
+			value: this.taskText,
+		};
+		this.startData = {
+			name: 'start',
+			type: 'date',
+			pattern: CONSTANTS.PATTERN_DATE,
+			value: this.start,
+		};
+		this.deadlineData = {
+			name: 'deadline',
+			type: 'date',
+			pattern: CONSTANTS.PATTERN_DATE,
+			value: this.deadline,
+		};
 	}
 
 	initComponent() {
@@ -68,25 +88,9 @@ export class Task {
 
 		new EditModal(
 			document.querySelector('main'),
-			{
-				name: 'task',
-				type: 'text',
-				pattern: CONSTANTS.PATTERN_NAME,
-				placeholder: 'Edit task',
-				value: this.taskText,
-			},
-			{
-				name: 'start',
-				type: 'date',
-				pattern: CONSTANTS.PATTERN_DATE,
-				value: this.start,
-			},
-			{
-				name: 'deadline',
-				type: 'date',
-				pattern: CONSTANTS.PATTERN_DATE,
-				value: this.deadline,
-			},
+			this.taskData,
+			this.startData,
+			this.deadlineData,
 			this.id
 		).initComponent();
 	}
