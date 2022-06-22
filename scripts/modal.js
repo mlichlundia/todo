@@ -22,6 +22,10 @@ class Modal {
 		this.deadlineField = deadline;
 	}
 
+	static createInput(data, parent) {
+		new Input(data, parent).initComponent();
+	}
+
 	initComponent() {
 		this.init();
 		this.createDOM();
@@ -50,9 +54,9 @@ class Modal {
 		this.modalContent.append(this.modalTitle);
 		this.modalContent.append(this.form);
 
-		new Input(this.taskField, this.form).initComponent();
-		new Input(this.startField, this.form).initComponent();
-		new Input(this.deadlineField, this.form).initComponent();
+		Modal.createInput(this.taskField, this.form);
+		Modal.createInput(this.startField, this.form);
+		Modal.createInput(this.deadlineField, this.form);
 
 		this.form.append(this.buttonContainer);
 

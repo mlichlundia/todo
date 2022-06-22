@@ -22,6 +22,10 @@ export class EditModal {
 		this.id = id;
 	}
 
+	static createInput(data, parent) {
+		new Input(data, parent).initComponent();
+	}
+
 	initComponent() {
 		this.init();
 		this.createDOM();
@@ -50,9 +54,9 @@ export class EditModal {
 		this.modalContent.append(this.modalTitle);
 		this.modalContent.append(this.form);
 
-		new Input(this.taskField, this.form, 'edit').initComponent();
-		new Input(this.startField, this.form, 'edit').initComponent();
-		new Input(this.deadlineField, this.form, 'edit').initComponent();
+		EditModal.createInput(this.taskField, this.form, 'edit');
+		EditModal.createInput(this.startField, this.form, 'edit');
+		EditModal.createInput(this.deadlineField, this.form, 'edit');
 
 		this.form.append(this.buttonContainer);
 
