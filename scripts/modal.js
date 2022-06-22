@@ -1,6 +1,5 @@
 import { isValid } from './isValid.js';
 import { createTask } from './createTask.js';
-import { formatDate } from './date.js';
 import { Input } from './generateInput.js';
 import { CONSTANTS } from './constants.js';
 
@@ -37,10 +36,6 @@ class Modal {
 		this.modalTitle = document.createElement('h2');
 		this.form = document.createElement('form');
 
-		this.taskField = new Input(this.taskField).createElement();
-		this.startField = new Input(this.startField).createElement();
-		this.deadlineField = new Input(this.deadlineField).createElement();
-
 		this.buttonContainer = document.createElement('div');
 		this.save = document.createElement('button');
 		this.close = document.createElement('button');
@@ -55,9 +50,10 @@ class Modal {
 		this.modalContent.append(this.modalTitle);
 		this.modalContent.append(this.form);
 
-		this.form.append(this.taskField);
-		this.form.append(this.startField);
-		this.form.append(this.deadlineField);
+		new Input(this.taskField, this.form).initComponent();
+		new Input(this.startField, this.form).initComponent();
+		new Input(this.deadlineField, this.form).initComponent();
+
 		this.form.append(this.buttonContainer);
 
 		this.buttonContainer.append(this.save);
@@ -77,7 +73,7 @@ class Modal {
 	}
 
 	setHendlers() {
-		const task = this.taskField.querySelector('#task');
+		const task = this.form.querySelector('#task');
 
 		this.modal.addEventListener('click', () => this.toggle());
 		this.modalContent.addEventListener('click', e => e.stopPropagation());
@@ -95,8 +91,8 @@ class Modal {
 		isValid(task);
 		createTask(
 			task.value,
-			formatDate(document.querySelector('#start').value),
-			formatDate(document.querySelector('#deadline').value)
+			document.querySelector('#start').value,
+			document.querySelector('#deadline').value
 		);
 		this.toggle();
 		this.form.reset();
