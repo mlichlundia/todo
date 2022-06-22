@@ -1,7 +1,9 @@
 import { Check } from './check.js';
+import { EditModal } from './editModal.js';
 import { formatDate } from './date.js';
 import { tomorrow } from './date.js';
 import { generateId } from './generateId.js';
+import { CONSTANTS } from './constants.js';
 
 export class Task {
 	taskContainer;
@@ -11,11 +13,12 @@ export class Task {
 	controlContainer;
 	check;
 	deleteButton;
+	editButton;
 
 	constructor(
 		task,
-		start = formatDate(new Date()),
-		deadline = formatDate(tomorrow(new Date())),
+		start = new Date(),
+		deadline = tomorrow(new Date()),
 		parent
 	) {
 		this.taskText = task;
@@ -23,6 +26,26 @@ export class Task {
 		this.deadline = deadline;
 		this.parent = parent;
 		this.id = generateId();
+
+		this.taskData = {
+			name: 'task',
+			type: 'text',
+			pattern: CONSTANTS.PATTERN_NAME,
+			placeholder: 'Edit task',
+			value: this.taskText,
+		};
+		this.startData = {
+			name: 'start',
+			type: 'date',
+			pattern: CONSTANTS.PATTERN_DATE,
+			value: this.start,
+		};
+		this.deadlineData = {
+			name: 'deadline',
+			type: 'date',
+			pattern: CONSTANTS.PATTERN_DATE,
+			value: this.deadline,
+		};
 	}
 
 	initComponent() {
@@ -40,23 +63,36 @@ export class Task {
 		this.task = document.createElement('h3');
 		this.term = document.createElement('p');
 		this.deleteButton = document.createElement('button');
+		this.editButton = document.createElement('button');
 	}
 
 	createElement() {
 		this.task.innerText = this.taskText;
-		this.term.innerHTML = `${this.start} — ${this.deadline}`;
+		this.term.innerHTML = `${formatDate(this.start)} — ${formatDate(
+			this.deadline
+		)}`;
 		this.deleteButton.innerText = '✖';
+		this.editButton.innerText = '✎';
 
 		this.taskInfo.append(this.task);
 		this.taskInfo.append(this.term);
 
 		new Check(this.controlContainer).initComponent();
 		this.controlContainer.append(this.deleteButton);
+		this.controlContainer.append(this.editButton);
 
 		this.taskContainer.append(this.taskInfo);
 		this.taskContainer.append(this.controlContainer);
 
 		this.parent.append(this.taskContainer);
+
+		new EditModal(
+			document.querySelector('main'),
+			this.taskData,
+			this.startData,
+			this.deadlineData,
+			this.id
+		).initComponent();
 	}
 
 	setClasses() {
@@ -64,6 +100,7 @@ export class Task {
 		this.taskInfo.classList.add('task__info');
 		this.task.classList.add('task');
 		this.deleteButton.classList.add('task__button');
+		this.editButton.classList.add('task__button');
 	}
 
 	setAttributes() {
@@ -74,6 +111,7 @@ export class Task {
 		this.check = this.controlContainer.querySelector('input');
 		this.check.addEventListener('change', this.toggleDone.bind(this));
 		this.deleteButton.addEventListener('click', this.delete.bind(this));
+		this.editButton.addEventListener('click', this.editModalOpen.bind(this));
 	}
 
 	toggleDone() {
@@ -92,5 +130,9 @@ export class Task {
 
 	delete() {
 		this.taskContainer.remove();
+	}
+
+	editModalOpen() {
+		document.querySelector(`.edit-modal#${this.id}`).classList.add('open');
 	}
 }

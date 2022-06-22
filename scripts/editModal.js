@@ -1,9 +1,8 @@
 import { isValid } from './isValid.js';
-import { createTask } from './createTask.js';
+import { formatDate } from './date.js';
 import { Input } from './generateInput.js';
-import { CONSTANTS } from './constants.js';
 
-class Modal {
+export class EditModal {
 	modal;
 	modalContent;
 	modalTitle;
@@ -15,11 +14,12 @@ class Modal {
 	save;
 	close;
 
-	constructor(parent, task, start, deadline) {
+	constructor(parent, task, start, deadline, id) {
 		this.parent = parent;
 		this.taskField = task;
 		this.startField = start;
 		this.deadlineField = deadline;
+		this.id = id;
 	}
 
 	static createInput(data, parent) {
@@ -46,7 +46,7 @@ class Modal {
 	}
 
 	createDOM() {
-		this.modalTitle.innerText = 'create task';
+		this.modalTitle.innerText = 'edit task';
 		this.save.innerText = 'save';
 		this.close.innerText = 'close';
 
@@ -54,9 +54,9 @@ class Modal {
 		this.modalContent.append(this.modalTitle);
 		this.modalContent.append(this.form);
 
-		Modal.createInput(this.taskField, this.form);
-		Modal.createInput(this.startField, this.form);
-		Modal.createInput(this.deadlineField, this.form);
+		EditModal.createInput(this.taskField, this.form, 'edit');
+		EditModal.createInput(this.startField, this.form, 'edit');
+		EditModal.createInput(this.deadlineField, this.form, 'edit');
 
 		this.form.append(this.buttonContainer);
 
@@ -67,17 +67,19 @@ class Modal {
 
 	setClasses() {
 		this.modal.classList.add('modal');
+		this.modal.classList.add('edit-modal');
 		this.modalContent.classList.add('modal__content');
 		this.buttonContainer.classList.add('modal__buttons');
 		this.close.classList.add('close');
 	}
 
 	setAttributes() {
+		this.modal.setAttribute('id', this.id);
 		this.save.setAttribute('type', 'submit');
 	}
 
 	setHendlers() {
-		const task = this.form.querySelector('#task');
+		const task = this.form.querySelector(`:first-child input`);
 
 		this.modal.addEventListener('click', this.toggle.bind(this));
 		this.modalContent.addEventListener('click', (e) => e.stopPropagation());
@@ -85,48 +87,24 @@ class Modal {
 			e.preventDefault();
 			this.toggle();
 		});
-
 		task.addEventListener('keyup', isValid.bind(this, task));
 		this.form.addEventListener('submit', (e) => this.onSubmit(e, task));
 	}
 
 	onSubmit(e, task) {
 		e.preventDefault();
-		isValid(task);
-		createTask(
-			task.value,
-			document.querySelector('#start').value,
-			document.querySelector('#deadline').value
-		);
+		const taskText = document.querySelector(`.task__container#${this.id} h3`);
+		const term = document.querySelector(`.task__container#${this.id} p`);
+		const start = this.form.querySelector('#start').value;
+		const deadline = this.form.querySelector('#deadline').value;
+
+		taskText.innerText = task.value;
+		term.innerText = `${formatDate(start)} — ${formatDate(deadline)}`;
+
 		this.toggle();
-		this.form.reset();
 	}
 
 	toggle() {
 		this.modal.classList.toggle('open');
 	}
 }
-
-const taskField = {
-	name: 'task',
-	type: 'text',
-	pattern: CONSTANTS.PATTERN_NAME,
-	placeholder: 'Your task',
-};
-const startField = {
-	name: 'start',
-	type: 'date',
-	pattern: CONSTANTS.PATTERN_DATE,
-};
-const deadlineField = {
-	name: 'deadline',
-	type: 'date',
-	pattern: CONSTANTS.PATTERN_DATE,
-};
-
-const openModal = document.querySelector('.open-modal-button');
-
-const main = document.querySelector('main');
-const modal = new Modal(main, taskField, startField, deadlineField);
-modal.initComponent();
-openModal.addEventListener('click', () => modal.toggle());
