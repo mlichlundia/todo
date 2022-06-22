@@ -1,28 +1,57 @@
 export class Input {
-	constructor({ name, type, placeholder, pattern }) {
+	container;
+	label;
+	input;
+
+	constructor({ name, type, placeholder, pattern, value }, parent, status) {
 		this.name = name;
+		this.value = value;
 		this.type = type;
 		this.pattern = pattern;
 		this.placeholder = placeholder;
+		this.parent = parent;
+		this.status = status;
 	}
+
+	initComponent() {
+		this.init();
+		this.setClasses();
+		this.setAttributes();
+		this.setInner();
+		this.createElement();
+	}
+
+	init() {
+		this.container = document.createElement('div');
+		this.label = document.createElement('label');
+		this.input = document.createElement('input');
+	}
+
 	createElement() {
-		const container = document.createElement("div");
-		const label = document.createElement("label");
-		const input = document.createElement("input");
+		this.container.append(this.label);
+		this.container.append(this.input);
 
-		container.classList.add("modal__field");
+		this.parent.append(this.container);
+	}
 
-		label.setAttribute("for", this.name);
+	setClasses() {
+		this.container.classList.add('modal__field');
+	}
 
-		input.setAttribute("id", this.name);
-		input.setAttribute("type", this.type);
-		input.setAttribute("placeholder", this.placeholder);
-		input.setAttribute("pattern", this.pattern);
-		input.setAttribute("required", "true");
+	setAttributes() {
+		this.label.setAttribute('for', this.name);
+		this.input.setAttribute('id', this.name);
+		this.input.setAttribute('type', this.type);
+		this.input.setAttribute('placeholder', this.placeholder);
+		this.input.setAttribute('pattern', this.pattern);
+		this.input.setAttribute('required', 'true');
+	}
 
-		container.append(label);
-		container.append(input);
-
-		return container;
+	setInner() {
+		if (this.status && this.input.type === 'date') {
+			this.input.valueAsDate = new Date(this.value);
+		} else if (this.status) {
+			this.input.value = this.value;
+		}
 	}
 }
