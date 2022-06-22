@@ -50,7 +50,9 @@ export class Input {
 	setInner() {
 		if (this.status && this.input.type === 'date') {
 			this.input.valueAsDate = new Date(this.value);
-		} else if (this.status) {
+		}
+
+		if (this.status) {
 			this.input.value = this.value;
 		}
 	}
