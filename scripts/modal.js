@@ -75,15 +75,15 @@ class Modal {
 	setHendlers() {
 		const task = this.form.querySelector('#task');
 
-		this.modal.addEventListener('click', () => this.toggle());
-		this.modalContent.addEventListener('click', e => e.stopPropagation());
-		this.close.addEventListener('click', e => {
+		this.modal.addEventListener('click', this.toggle.bind(this));
+		this.modalContent.addEventListener('click', (e) => e.stopPropagation());
+		this.close.addEventListener('click', (e) => {
 			e.preventDefault();
 			this.toggle();
 		});
 
-		task.addEventListener('keyup', () => isValid(task));
-		this.form.addEventListener('submit', e => this.onSubmit(e, task));
+		task.addEventListener('keyup', isValid.bind(this, task));
+		this.form.addEventListener('submit', (e) => this.onSubmit(e, task));
 	}
 
 	onSubmit(e, task) {
