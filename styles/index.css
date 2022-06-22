@@ -1,5 +1,5 @@
 html {
-	font-family: "Inter", Arial, sans-serif;
+	font-family: 'Inter', Arial, sans-serif;
 	font-size: 16px;
 }
 
@@ -58,4 +58,15 @@ input {
 
 .invalid {
 	border: 0.125rem solid rgb(219 102 102);
+}
+
+.filter__buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+.filter__buttons button {
+	padding: 1rem 0.5rem;
+	background: none;
+	color: rgb(63, 73, 104);
 }
