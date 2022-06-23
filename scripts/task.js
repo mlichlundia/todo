@@ -54,6 +54,7 @@ export class Task {
 		this.setClasses();
 		this.setAttributes();
 		this.setHendlers();
+		return this;
 	}
 
 	init() {
@@ -129,6 +130,9 @@ export class Task {
 	}
 
 	delete() {
+		const list = [...Object.taskList];
+
+		Object.taskList = list.filter((item) => item !== this);
 		this.taskContainer.remove();
 	}
 
