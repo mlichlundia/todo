@@ -27,10 +27,18 @@
         <button class="input__button open-modal-button">+</button>
       </div>
 
-      <div class="filter__container">
+      <div class="filter__container" style="display: block">
         <p>sort by:</p>
         <button id="text-sort">text</button>
         <button id="date-sort">date</button>
+        <form>
+          <label for="search-task"></label>
+          <input id="search-task" type="text" placeholder="Search task"
+            pattern="([0-9A-Za-z\s]+)+">
+          <button type="submit">search</button>
+        </form>
+
+
       </div>
 
       <div class="filter__buttons">
