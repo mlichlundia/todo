@@ -84,7 +84,7 @@ function searchFilter(e) {
 	e.preventDefault();
 
 	const list = [...Object.taskList];
-	list.map(
+	list.forEach(
 		(item) =>
 			(item.taskContainer.style.display =
 				item.taskText.indexOf(searchInput.value) !== -1 ? '' : 'none')
