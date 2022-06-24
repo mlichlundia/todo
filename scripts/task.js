@@ -46,6 +46,8 @@ export class Task {
 			pattern: CONSTANTS.PATTERN_DATE,
 			value: this.deadline,
 		};
+
+		this.initComponent();
 	}
 
 	initComponent() {
