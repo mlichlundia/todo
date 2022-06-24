@@ -22,8 +22,8 @@ export class EditModal {
 		this.id = id;
 	}
 
-	static createInput(data, parent) {
-		new Input(data, parent).initComponent();
+	static createInput(data, parent, status) {
+		new Input(data, parent, status).initComponent();
 	}
 
 	initComponent() {
@@ -97,6 +97,20 @@ export class EditModal {
 		const term = document.querySelector(`.task__container#${this.id} p`);
 		const start = this.form.querySelector('#start').value;
 		const deadline = this.form.querySelector('#deadline').value;
+
+		const list = [...Object.taskList];
+
+		list.forEach((item) => {
+			if (this.id !== item.id) {
+				return;
+			}
+
+			item.taskText = task.value;
+			item.start = new Date(start);
+			item.deadline = new Date(deadline);
+		});
+
+		Object.taskList = list;
 
 		taskText.innerText = task.value;
 		term.innerText = `${formatDate(start)} — ${formatDate(deadline)}`;

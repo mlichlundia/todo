@@ -20,10 +20,17 @@
     <div class="todo__container">
 
       <div class="todo__create-container">
+        <button class="input__button open-filter-button">▾</button>
         <label for="task-name"></label>
         <input id="task-name" type="text" placeholder="Your task"
           pattern="([0-9A-Za-z\s]+)+" required>
-        <button class="open-modal-button">+</button>
+        <button class="input__button open-modal-button">+</button>
+      </div>
+
+      <div class="filter__container">
+        <p>sort by:</p>
+        <button id="text-sort">text</button>
+        <button id="date-sort">date</button>
       </div>
 
       <div class="filter__buttons">
@@ -51,6 +58,7 @@
   <script type="module" src="./scripts/generateId.js"></script>
   <script type="module" src="./scripts/editModal.js"></script>
   <script type="module" src="./scripts/filterFuncs.js"></script>
+  <script type="module" src="./scripts/variables.js"></script>
 
 </body>
 
