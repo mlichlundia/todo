@@ -100,12 +100,14 @@ export class EditModal {
 
 		const list = [...Object.taskList];
 
-		list.map((item) => {
-			if (this.id === item.id) {
-				item.taskText = task.value;
-				item.start = new Date(start);
-				item.deadline = new Date(deadline);
+		list.forEach((item) => {
+			if (this.id !== item.id) {
+				return;
 			}
+
+			item.taskText = task.value;
+			item.start = new Date(start);
+			item.deadline = new Date(deadline);
 		});
 
 		Object.taskList = list;
