@@ -88,3 +88,14 @@ input {
 	padding: 0.5rem 0;
 	margin: 0 0.5rem 0 0;
 }
+
+.filter__container form {
+	margin: 0.5rem 0 0;
+}
+
+#search-task {
+	width: auto;
+	margin: 0 1rem 0 0;
+	display: inline-block;
+	background: rgb(235, 237, 243);
+}

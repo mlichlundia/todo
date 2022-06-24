@@ -8,6 +8,8 @@ const openFilterButton = document.querySelector('.open-filter-button');
 const filterContainer = document.querySelector('.filter__container');
 const byText = document.querySelector('#text-sort');
 const byDate = document.querySelector('#date-sort');
+const searchForm = document.querySelector('.filter__container form');
+const searchInput = document.querySelector('#search-task');
 
 all.addEventListener('click', showAll);
 active.addEventListener('click', showActive);
@@ -18,6 +20,7 @@ openFilterButton.addEventListener('click', toggleFilter);
 
 byText.addEventListener('click', textSort);
 byDate.addEventListener('click', dateSort);
+searchForm.addEventListener('submit', (e) => searchFilter(e));
 
 function showAll() {
 	const tasks = document.querySelectorAll('.task__container');
@@ -75,6 +78,17 @@ function dateSort() {
 	);
 
 	recreateTaskList(filtered);
+}
+
+function searchFilter(e) {
+	e.preventDefault();
+
+	const list = [...Object.taskList];
+	list.forEach(
+		(item) =>
+			(item.taskContainer.style.display =
+				item.taskText.indexOf(searchInput.value) !== -1 ? '' : 'none')
+	);
 }
 
 function recreateTaskList(list) {
